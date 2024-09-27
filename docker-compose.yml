@@ -1,0 +1,47 @@
+services:
+    grandchef_api:
+        container_name: grandchef_api
+        build: .
+        restart: always
+        volumes:
+            - .:/var/www/html/project
+            - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+            - ./docker/supervisord/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
+        depends_on:
+            - grandchef_db
+            - grandchef_redis
+        networks:
+            grandchef_network:
+                ipv4_address: 172.175.10.1
+        ports:
+            - "9500:80"
+
+    grandchef_db:
+        container_name: grandchef_db
+        image: mysql:5.7
+        environment:
+            MYSQL_ROOT_PASSWORD: 1234
+            MYSQL_DATABASE: grand_chef
+        restart: always
+        networks:
+            grandchef_network:
+                ipv4_address: 172.175.10.2
+        ports:
+            - "3306:3306"
+
+    grandchef_redis:
+        container_name: grandchef_redis
+        image: "redis:alpine"
+        restart: always
+        networks:
+            grandchef_network:
+                ipv4_address: 172.175.10.3
+
+
+networks:
+    grandchef_network:
+        driver: bridge
+        ipam:
+            config:
+                - subnet: 172.175.0.0/16
+
