@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\App\Http\Controllers;
 
 use App\Models\Category;
@@ -22,7 +24,7 @@ class CategoryControllerTest extends TestCase
     {
         $category = Category::factory()->create();
 
-        $response = $this->deleteJson('/api/categories/' . $category->id);
+        $response = $this->deleteJson('/api/categories/'.$category->id);
 
         $response->assertNoContent();
         $this->assertDatabaseMissing('categories', ['id' => $category->id]);
@@ -33,7 +35,7 @@ class CategoryControllerTest extends TestCase
     {
         $category = Category::factory()->create();
 
-        $response = $this->putJson('/api/categories/' . $category->id, ['name' => 'New Category Name']);
+        $response = $this->putJson('/api/categories/'.$category->id, ['name' => 'New Category Name']);
 
         $response->assertOk();
         $this->assertDatabaseHas('categories', ['id' => $category->id, 'name' => 'New Category Name']);
@@ -64,7 +66,7 @@ class CategoryControllerTest extends TestCase
     {
         $category = Category::factory()->create();
 
-        $response = $this->getJson('/api/categories/' . $category->id);
+        $response = $this->getJson('/api/categories/'.$category->id);
 
         $this->assertJson($response->getContent(), json_encode($category->toArray()));
         $response->assertOk();
