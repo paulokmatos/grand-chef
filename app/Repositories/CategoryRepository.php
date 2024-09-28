@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repositories;
 
+use App\Interfaces\ICategoryRepository;
 use App\Models\Category;
-use Exception;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class CategoryRepository
+class CategoryRepository implements ICategoryRepository
 {
     public function create(array $attributes): Category
     {
@@ -20,32 +22,18 @@ class CategoryRepository
 
     public function list($page, $itemsPerPage): LengthAwarePaginator
     {
-        return Category::paginate(perPage:  $itemsPerPage, page: $page);
+        return Category::paginate(perPage: $itemsPerPage, page: $page);
     }
 
-    /**
-     * @throws Exception
-     */
     public function update(Category $category, array $attributes): Category
     {
-        $updated = $category->update($attributes);
-
-        if (!$updated) {
-            throw new Exception('Failed to update category');
-        }
+        $category->update($attributes);
 
         return $category;
     }
 
-    /**
-     * @throws Exception
-     */
     public function delete(int $id): void
     {
-        $deleted = Category::destroy($id);
-
-        if (!$deleted) {
-            throw new Exception('Failed to update category');
-        }
+        Category::destroy($id);
     }
 }
