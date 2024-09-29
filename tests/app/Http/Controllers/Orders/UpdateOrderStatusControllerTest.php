@@ -22,7 +22,7 @@ class UpdateOrderStatusControllerTest extends TestCase
     {
         $order = Order::factory()->create();
 
-        $response = $this->patchJson('/api/orders/1', [
+        $response = $this->patchJson('/api/orders/1/status', [
             'status_id' => OrderStatus::APPROVED->value,
         ]);
 
@@ -37,10 +37,11 @@ class UpdateOrderStatusControllerTest extends TestCase
     public function test_ShouldNotCancelAFinishedOrder()
     {
         Order::factory()->create([
+            'id'        => 1,
             'status_id' => OrderStatus::FINISHED->value,
         ]);
 
-        $response = $this->patchJson('/api/orders/1', [
+        $response = $this->patchJson('/api/orders/1/status', [
             'status_id' => OrderStatus::CANCELLED->value,
         ]);
 
@@ -56,7 +57,7 @@ class UpdateOrderStatusControllerTest extends TestCase
             'status_id' => OrderStatus::CANCELLED->value,
         ]);
 
-        $response = $this->patchJson('/api/orders/1', [
+        $response = $this->patchJson('/api/orders/1/status', [
             'status_id' => OrderStatus::APPROVED->value,
         ]);
 
@@ -72,7 +73,7 @@ class UpdateOrderStatusControllerTest extends TestCase
             'status_id' => OrderStatus::CANCELLED->value,
         ]);
 
-        $response = $this->patchJson('/api/orders/1', [
+        $response = $this->patchJson('/api/orders/1/status', [
             'status_id' => OrderStatus::FINISHED->value,
         ]);
 
@@ -88,7 +89,7 @@ class UpdateOrderStatusControllerTest extends TestCase
             'status_id' => OrderStatus::APPROVED->value,
         ]);
 
-        $response = $this->patchJson('/api/orders/1', [
+        $response = $this->patchJson('/api/orders/1/status', [
             'status_id' => OrderStatus::PENDING->value,
         ]);
 
