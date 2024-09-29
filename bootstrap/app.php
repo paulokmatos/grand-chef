@@ -16,5 +16,9 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+        $exceptions->render(function (DomainException $exception) {
+            return response()->json([
+                'error' => $exception->getMessage(),
+            ], $exception->getCode());
+        });
     })->create();
