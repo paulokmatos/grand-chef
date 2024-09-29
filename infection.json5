@@ -1,0 +1,20 @@
+{
+    "$schema": "https://raw.githubusercontent.com/infection/infection/0.29.0/resources/schema.json",
+    "source": {
+        "directories": [
+            "app",
+            "database/factories",
+            "database/seeders"
+        ]
+    },
+    "logs": {
+        "text": ".infection_logs/infection.log",
+        "html": ".infection_logs/infection.html",
+        "summary": ".infection_logs/summary.log",
+        "json": ".infection_logs/infection.json"
+    },
+    "mutators": {
+        "@default": true
+    },
+    "testFramework":"phpunit"
+}
