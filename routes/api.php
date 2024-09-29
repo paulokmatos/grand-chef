@@ -11,5 +11,5 @@ use App\Http\Controllers\ProductController;
 Route::apiResource('categories', CategoryController::class);
 Route::apiResource('products', ProductController::class);
 Route::post('orders', CreateOrderController::class);
-Route::patch('orders/{order}', UpdateOrderStatusController::class);
+Route::patch('orders/{order}/status', UpdateOrderStatusController::class);
 Route::get('menu', ListMenuController::class);
