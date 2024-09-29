@@ -6,14 +6,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
+use App\Interfaces\ICategoryRepository;
 use App\Models\Category;
-use App\Repositories\CategoryRepository;
 use Exception;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    public function __construct(protected CategoryRepository $repository)
+    public function __construct(protected ICategoryRepository $repository)
     {
     }
 

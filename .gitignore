@@ -11,6 +11,7 @@
 .phpactor.json
 .phpunit.result.cache
 .coverage
+.infection_logs
 Homestead.json
 Homestead.yaml
 auth.json
