@@ -10,6 +10,7 @@ Docker Compose version v2.29.7
 ```
 cp .env.example .env
 docker compose up -d
+docker exec -it grandchef_api composer install
 docker exec -it grandchef_api php artisan migrate --seed
 ```
 
