@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Elastic\Elasticsearch\ClientBuilder;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
@@ -53,6 +54,20 @@ return [
     */
 
     'channels' => [
+
+        'kibana' => [
+            'driver'         => 'monolog',
+            'level'          => 'debug',
+            'handler'        => \Monolog\Handler\ElasticsearchHandler::class,
+            'formatter'      => \Monolog\Formatter\ElasticsearchFormatter::class,
+            'formatter_with' => [
+                'index' => env('ELASTIC_LOGS_INDEX'),
+                'type'  => '_doc',
+            ],
+            'handler_with' => [
+                'client' => ClientBuilder::create()->setHosts([env('ELASTICSEARCH_HOST')])->build(),
+            ],
+        ],
 
         'stack' => [
             'driver'            => 'stack',
