@@ -36,12 +36,18 @@ class CreateOrderControllerTest extends TestCase
             ],
         ]);
 
+        $this->assertDatabaseHas('orders', [
+            'total_price' => 300,
+        ]);
+
         $response->assertCreated()
-            ->assertJson(function (AssertableJson $json) use ($products) {
+            ->assertJson(function (AssertableJson $json) use ($products, $response) {
                 $json->has('data.products')
                     ->where('data.total_price', 300)
-                    ->where('data.products.0.product_id', $products[0]->id)
                     ->where('data.products.1.product_id', $products[1]->id)
+                    ->where('data.products.0.product_id', $products[0]->id)
+                    ->where('data.products.0.order_id', $response->json('data.id'))
+                    ->where('data.products.0.product_name', $products[0]->name)
                     ->where('data.products.0.price', 20)
                     ->where('data.products.0.amount', 10);
             });

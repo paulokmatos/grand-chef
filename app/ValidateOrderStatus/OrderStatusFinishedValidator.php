@@ -16,7 +16,7 @@ class OrderStatusFinishedValidator implements IOrderStatusValidator
      */
     public function validate(Order $order): void
     {
-        if ((int) $order->status_id === OrderStatus::CANCELLED->value) {
+        if ($order->status_id === OrderStatus::CANCELLED->value) {
             throw new InvalidStatusException('You cannot finish a cancelled order');
         }
     }
