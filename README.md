@@ -1,66 +1,59 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Grand Chef API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Requisitos
+```sh
+Docker version 27.3.1 
+Docker Compose version v2.29.7
+```
 
-## About Laravel
+## Setup do Projeto
+```
+cp .env.example .env
+docker compose up -d
+docker exec -it grandchef_api php artisan migrate --seed
+```
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Sobre o Projeto
+- Testes unitários com PHPUnit.
+- Testes de Mutação com Infection.
+- Lint com Larastan e Pint.
+- CI/CD com Github actions.
+- Documentação com Swagger (OpenApi 3.0).
+- Logs com Kibana/Elasticsearch.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Design Patterns
+- Foi utilizado o padrão Action para garantir o SRP e encapsular funções de maior complexidade.
+- Foi utilizado o padrão Strategy no `OrderStatusValidator` para garantir a validação dos Status do Pedido.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Documentação
+Gerar documentação
+```sh
+docker exec -it grandchef_api php artisan l5-swagger:generate
+```
+Após gerar a documentação poderá ser acessada através [desse link](http://172.175.10.1/api/documentation)
 
-## Learning Laravel
+## Logs
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- O projeto utiliza o Kibana como client do ElasticSearch para gerenciamento de Logs do sistema.
+- Foi criado o `RequestLogMiddleware` para registrar os logs de todas as requisições feitas na API.
+- Você pode acessar os logs através [desse link](http://localhost:5601/app/kibana#/discover)
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+![image](https://github.com/user-attachments/assets/67d32413-87e4-4324-bf7d-11e6820d9cbe)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Configurando Kibana
+### Registrar índex pattern
 
-## Laravel Sponsors
+Ao acessar pela primeira vez a URL acima você será redirecionado para esta [página](http://localhost:5601/app/kibana#/management/kibana/index_patterns): <br>
+![image](https://github.com/user-attachments/assets/eafe0d57-1af1-4743-843a-ad5e21808d43)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Então é preciso fazer um primeira requisição para ter dados para gerar um index pattern. <br>
 
-### Premium Partners
+Após a primeira requisição essa tela irá ficar dessa forma e preencha conforme a imagem abaixo: 
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+![image](https://github.com/user-attachments/assets/9366e09a-7c3a-4cc1-a33e-81d2380e1271)
 
-## Contributing
+Então selecione a opção datetime: 
+![image](https://github.com/user-attachments/assets/20f7fcad-95b5-4893-8915-9b3a36d35208)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Após isso você poderá ter acesso aos logs [nesse link](http://localhost:5601/app/kibana#/discover) 
 
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
