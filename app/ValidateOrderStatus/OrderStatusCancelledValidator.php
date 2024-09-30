@@ -21,7 +21,7 @@ class OrderStatusCancelledValidator implements IOrderStatusValidator
             OrderStatus::FINISHED->value,
         ];
 
-        if (in_array((int) $order->status_id, $notAllowedStatuses, true)) {
+        if (in_array($order->status_id, $notAllowedStatuses, true)) {
             throw new InvalidStatusException('You cannot cancel an finished or canceled order');
         }
     }
